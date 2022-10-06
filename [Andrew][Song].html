@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>GBM Mini-Assignment</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+  <style>
+    /* Formatting for the website layout and page design */
+    body {
+      text-align: center;
+      background-color: rgb(225, 47, 83);
+    }
+    div.Header_Card {
+      background-color: rgb(231, 221, 221);
+      width: 850px;
+      border: 15px solid white;
+      padding: 15px;
+      margin: 15px;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    div {
+      background-color: rgb(231, 221, 221);
+      width: 850px;
+      border: 15px solid white;
+      padding: 15px;
+      margin: 15px;
+      text-align: left;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+
+  <body>
+    <!-- Header for the Website -->
+    <div class="Header_Card">
+    <p><b>
+        <font size="+4"> Global Banking & Markets Technology </font>
+    </p>
+    <p>
+        <font size="+2">Currency Converter </font>
+    </b></p>
+    </div>
+    <!-- Allowing the user to choose their primary currency from a variety of different currency types 
+        and taking in the value to convert -->
+    <div class="Currency Inputs">
+      <p><b>
+        Amount of Currency to Convert (from):
+        <select id="primary">
+          <option value="CAD" selected>CAD</option>
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="HKD">HKD</option>
+          <option value="JPY">JPY</option>
+          <option value="KRW">KRW</option>
+          <option value="AUD">AUD</option>
+          <option value="CNY">CNY</option>
+          <option value="ZAR">ZAR</option>
+        </select>
+        <input
+          type="number"
+          id="primary_amount"
+          value="1"
+        />
+      </b></p>
+    </div>
+
+    <!-- Allowing the user to choose what to convert their currency to and displaying the converted amount -->
+    <div class="Currency Converted Output">
+      <p><b>
+        Converted Amount (to):
+        <select id="secondary">
+          <option value="CAD" >CAD</option>
+          <option value="USD" selected>USD</option>
+          <option value="EUR">EUR</option>
+          <option value="HKD">HKD</option>
+          <option value="JPY">JPY</option>
+          <option value="KRW">KRW</option>
+          <option value="AUD">AUD</option>
+          <option value="CNY">CNY</option>
+          <option value="ZAR">ZAR</option>
+        </select>
+        </b>
+        <output
+          id="secondary_amount"
+        />
+      </p>
+    </div>
+
+    <!-- Displaying an image for Scotiabank logo -->
+    <img src="https://scotiabank.com.my/scotiabank/upphoto/slide/uploadsmall/001-1.png" style="width:25%">
+
+    <script>
+      // The rate is first retrieved and calculated so that a converted value is always shown
+      get_calculate_rate();
+
+      // Retrieving the user input for primary (from) currency and secondary (to) currency
+      primary = document.getElementById("primary");
+      secondary = document.getElementById("secondary");
+      // Making the calculations and rate update whenever a change is detected on the webpage element
+      primary.addEventListener("change", get_calculate_rate);
+      secondary.addEventListener("change", get_calculate_rate);
+
+      // Retrieving the user in put for amount to convert
+      primary_amount = document.getElementById("primary_amount");
+      // Making the calculations and rate update whenever a new value is entered (realtime)
+      primary_amount.addEventListener("input", get_calculate_rate);
+      
+      // Function to retrieve and calculate the rates/conversions
+      function get_calculate_rate() {
+        // Retrieving the (from) currency code and the (to) currency code and getting the value (string)
+         original_currency = primary.value;
+         converted_currency = secondary.value;
+
+        // Making the call to the currency conversion API to retrieve the current conversion rates
+        fetch(`https://api.exchangerate-api.com/v4/latest/${original_currency}`)
+          .then((response) => {
+            // If the response is good, return the conversion JSON
+            if (response.ok) {
+              return response.json();
+            } else {
+              // Otherwise throw an error and error message
+              throw new Error("NETWORK RESPONSE ERROR");
+            }
+          })
+          .then((response) => {
+            // Using the JSON values, convert the Primary Amount by multiplying by the respective rate to calculate Converted Amount
+            var rate = response.rates[converted_currency];
+            secondary_amount.value = (primary_amount.value * rate).toFixed(2);
+          });
+      }
+    </script>
+  </body>
+</html>
