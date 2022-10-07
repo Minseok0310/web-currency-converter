@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>GBM Mini-Assignment</title>
+    <title>Andrew Song</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
   <style>
     /* Formatting for the website layout and page design */
     body {
       text-align: center;
-      background-color: rgb(225, 47, 83);
+      background-color: rgb(49, 123, 207);
     }
     div.Header_Card {
-      background-color: rgb(231, 221, 221);
+      background-color: rgb(241, 234, 234);
       width: 850px;
       border: 15px solid white;
+      border-radius: 10px;
       padding: 15px;
       margin: 15px;
-      text-align: center;
       margin-left: auto;
       margin-right: auto;
+      text-align: center;
     }
     div {
       background-color: rgb(231, 221, 221);
       width: 850px;
       border: 15px solid white;
+      border-radius: 10px;
       padding: 15px;
       margin: 15px;
-      text-align: left;
       margin-left: auto;
       margin-right: auto;
+      text-align: left;
     }
   </style>
 
@@ -36,10 +38,10 @@
     <!-- Header for the Website -->
     <div class="Header_Card">
     <p><b>
-        <font size="+4"> Global Banking & Markets Technology </font>
+        <font size="+4"> Currency Converter </font>
     </p>
     <p>
-        <font size="+2">Currency Converter </font>
+        <font size="+2">Utilizing JavaScript, HTML and CSS </font>
     </b></p>
     </div>
     <!-- Allowing the user to choose their primary currency from a variety of different currency types 
@@ -89,7 +91,7 @@
     </div>
 
     <!-- Displaying an image for Scotiabank logo -->
-    <img src="https://scotiabank.com.my/scotiabank/upphoto/slide/uploadsmall/001-1.png" style="width:25%">
+    <img src="https://static.vecteezy.com/system/resources/previews/001/197/973/original/globe-grid-png.png" style="width:15%">
 
     <script>
       // The rate is first retrieved and calculated so that a converted value is always shown
@@ -116,12 +118,12 @@
         // Making the call to the currency conversion API to retrieve the current conversion rates
         fetch(`https://api.exchangerate-api.com/v4/latest/${original_currency}`)
           .then((response) => {
-            // If the response is good, return the conversion JSON
+            // If the response is good, return the conversion rate JSON
             if (response.ok) {
               return response.json();
             } else {
               // Otherwise throw an error and error message
-              throw new Error("NETWORK RESPONSE ERROR");
+              window.alert("NETWORK RESPONSE ERROR");
             }
           })
           .then((response) => {
